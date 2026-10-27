@@ -58,7 +58,8 @@ def trang_chu():
 
 @app.get("/san")
 def danh_sach_san():
-    loai_dang_chon = request.args.get("loai_san", "")
+    # strip() bỏ dấu cách thừa ở hai đầu, để "?loai_san= " được coi như không chọn loại.
+    loai_dang_chon = request.args.get("loai_san", "").strip()
 
     # Lấy các loại sân không trùng nhau, giữ thứ tự xuất hiện trong dữ liệu.
     cac_loai_san = []

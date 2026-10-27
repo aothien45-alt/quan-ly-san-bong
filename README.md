@@ -68,6 +68,8 @@ Dữ liệu mẫu có 5 sân, trong đó Sân A2 đang ngừng hoạt động (`
 | `/` | 200, tổng số sân: 5, số sân đang hoạt động: 4 |
 | `/san` | 200, bảng 5 sân, có thanh lọc "Tất cả" và từng loại sân |
 | `/san?loai_san=Sân 7 người` | 200, chỉ còn Sân B1 và Sân B2 |
+| `/san?loai_san=Sân 7 người%20` (thừa dấu cách ở cuối) | 200, vẫn ra Sân B1 và Sân B2 |
+| `/san?loai_san=%20` (chỉ có dấu cách) | 200, "Tất cả: 5 sân" |
 | `/san?loai_san=<b>x</b>` | 200, hiển thị nguyên văn `<b>x</b>`, không in đậm (đã escape) |
 | `/san/3` | 200, chi tiết Sân B1 |
 | `/san/99` | 404, trang lỗi có menu, "Không có sân với mã = 99" |
