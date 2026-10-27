@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 """Ứng dụng quản lý sân bóng, phiên bản v0.1 (Chương 3: Flask căn bản)."""
 
-from flask import Flask, request, url_for
+from flask import Flask, abort, request, url_for
 from markupsafe import escape
 
 from du_lieu_mau import DANH_SACH_SAN
@@ -78,8 +78,9 @@ def danh_sach_san():
 
     cac_dong = ""
     for san in cac_san:
+        link_chi_tiet = url_for("chi_tiet_san", ma_san=san["ma_san"])
         cac_dong += (
-            f"<tr><td>{escape(san['ten_san'])}</td>"
+            f"<tr><td><a href=\"{link_chi_tiet}\">{escape(san['ten_san'])}</a></td>"
             f"<td>{escape(san['loai_san'])}</td>"
             f"<td>{escape(san['dia_chi'])}</td>"
             f"<td>{dinh_dang_tien(san['gia_thue_mot_gio'])}</td>"
@@ -102,3 +103,33 @@ def danh_sach_san():
         "</table>"
     )
     return dung_khung_trang("Danh sách sân", noi_dung)
+
+
+@app.get("/san/<int:ma_san>")
+def chi_tiet_san(ma_san):
+    san = tim_san(ma_san)
+    if san is None:
+        abort(404, description=f"Không có sân với mã = {ma_san}")
+    noi_dung = (
+        f"<h1>{escape(san['ten_san'])}</h1>"
+        "<ul>"
+        f"<li>Mã sân: {san['ma_san']}</li>"
+        f"<li>Loại sân: {escape(san['loai_san'])}</li>"
+        f"<li>Địa chỉ: {escape(san['dia_chi'])}</li>"
+        f"<li>Giá thuê một giờ: {dinh_dang_tien(san['gia_thue_mot_gio'])}</li>"
+        f"<li>Trạng thái: {escape(san['trang_thai'])}</li>"
+        "</ul>"
+        f"<p><a href=\"{url_for('danh_sach_san')}\">Quay lại danh sách sân</a></p>"
+    )
+    return dung_khung_trang(san["ten_san"], noi_dung)
+
+
+@app.errorhandler(404)
+def trang_loi_404(loi):
+    noi_dung = (
+        "<h1>404 - Không tìm thấy trang</h1>"
+        f"<p>{escape(loi.description)}</p>"
+        f"<p><a href=\"{url_for('trang_chu')}\">Về trang chủ</a></p>"
+    )
+    # Phải trả kèm mã 404, nếu không Flask trả 200 và trình duyệt tưởng trang vẫn tồn tại.
+    return dung_khung_trang("Không tìm thấy", noi_dung), 404
