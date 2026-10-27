@@ -11,8 +11,7 @@ Người thực hiện: Nguyễn Văn Quân.
 
 ## Trạng thái
 
-**Đang phát triển.** Hiện đang ở giai đoạn khởi tạo kho mã (Bài 1–2), chưa có code ứng dụng.
-Các trang xem sân đầu tiên sẽ có ở phiên bản `v0.1` (Chương 3).
+**Đang phát triển.** Phiên bản v0.1 (Chương 3): xem danh sách sân, lọc theo loại, chi tiết sân, API JSON, trang lỗi 404.
 
 ## Công nghệ
 
@@ -47,9 +46,44 @@ python -m venv .venv
 
 # 4. Kiểm tra đã cài được Flask
 .\.venv\Scripts\python.exe -m flask --version
+
+# 5. Xem danh sách route của ứng dụng
+.\.venv\Scripts\python.exe -m flask --app app routes
+
+# 6. Chạy server ở chế độ debug, cổng 8000
+.\.venv\Scripts\python.exe -m flask --app app run --debug --port 8000
 ```
 
-Hiện chưa có ứng dụng để chạy. Lệnh chạy web sẽ được bổ sung ở Chương 3.
+Sau đó mở trình duyệt tại http://127.0.0.1:8000/. Nhấn `Ctrl + C` trong terminal để dừng server.
+Chế độ `--debug` chỉ dùng khi phát triển trên máy cá nhân, không bật trên máy chủ triển khai.
+
+## Các URL đã kiểm thử
+
+Dữ liệu mẫu có 5 sân, trong đó Sân A2 đang ngừng hoạt động (`INACTIVE`).
+
+### Trang HTML (mở bằng trình duyệt)
+
+| URL | Kết quả mong đợi |
+|---|---|
+| `/` | 200, tổng số sân: 5, số sân đang hoạt động: 4 |
+| `/san` | 200, bảng 5 sân, có thanh lọc "Tất cả" và từng loại sân |
+| `/san?loai_san=Sân 7 người` | 200, chỉ còn Sân B1 và Sân B2 |
+| `/san?loai_san=<b>x</b>` | 200, hiển thị nguyên văn `<b>x</b>`, không in đậm (đã escape) |
+| `/san/3` | 200, chi tiết Sân B1 |
+| `/san/99` | 404, trang lỗi có menu, "Không có sân với mã = 99" |
+| `/san/abc`, `/san/-1`, `/abc` | 404, trang lỗi có menu, "Trang bạn tìm không tồn tại." |
+
+### API JSON (chạy trong terminal thứ hai khi server đang chạy)
+
+| Lệnh | Kết quả mong đợi |
+|---|---|
+| `curl.exe -i http://127.0.0.1:8000/api/san` | 200, `application/json`, danh sách 5 sân |
+| `curl.exe -i http://127.0.0.1:8000/api/san/3` | 200, thông tin Sân B1 |
+| `curl.exe -i http://127.0.0.1:8000/api/san/99` | 404, `{"error": "Không có sân với mã = 99"}` |
+| `curl.exe -i http://127.0.0.1:8000/api/san/abc` | 404, `{"error": "Trang bạn tìm không tồn tại."}` |
+| `curl.exe -i -X POST http://127.0.0.1:8000/api/san` | 405 Method Not Allowed |
+
+Trong PowerShell phải gõ `curl.exe`, vì `curl` không có đuôi `.exe` là tên viết tắt của lệnh `Invoke-WebRequest`.
 
 ## Nguồn tham khảo
 
