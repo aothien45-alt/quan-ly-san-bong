@@ -4,6 +4,7 @@
 
 from flask import Flask, abort, request, url_for
 from markupsafe import escape
+from werkzeug.exceptions import NotFound
 
 from du_lieu_mau import DANH_SACH_SAN
 
@@ -142,9 +143,9 @@ def api_chi_tiet_san(ma_san):
 
 @app.errorhandler(404)
 def trang_loi_404(loi):
-    # type(loi) là lớp lỗi NotFound, lớp này chứa sẵn câu mặc định tiếng Anh của Flask.
-    # Mô tả trùng câu đó nghĩa là không có abort(404, description=...) riêng, nên thay bằng tiếng Việt.
-    if loi.description == type(loi).description:
+    # NotFound.description là câu báo 404 mặc định bằng tiếng Anh của Flask.
+    # Trùng câu đó nghĩa là không có abort(404, description=...) riêng, nên dùng câu tiếng Việt.
+    if loi.description == NotFound.description:
         mo_ta = "Trang bạn tìm không tồn tại."
     else:
         mo_ta = loi.description
