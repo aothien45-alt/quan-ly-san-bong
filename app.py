@@ -147,6 +147,9 @@ def trang_loi_404(loi):
         mo_ta = "Trang bạn tìm không tồn tại."
     else:
         mo_ta = loi.description
+    # URL của API (ví dụ /api/san/abc) thì trả JSON để chương trình gọi API đọc được.
+    if request.path.startswith("/api/"):
+        return {"error": mo_ta}, 404
     noi_dung = (
         "<h1>404 - Không tìm thấy trang</h1>"
         f"<p>{escape(mo_ta)}</p>"
