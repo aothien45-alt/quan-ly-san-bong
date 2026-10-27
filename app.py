@@ -135,8 +135,8 @@ def api_danh_sach_san():
 def api_chi_tiet_san(ma_san):
     san = tim_san(ma_san)
     if san is None:
-        # API trả lỗi dạng JSON để chương trình gọi API đọc được, không trả trang HTML.
-        return {"error": f"Không có sân với mã = {ma_san}"}, 404
+        # Giống trang HTML: trang_loi_404 thấy URL bắt đầu bằng /api/ nên tự trả JSON.
+        abort(404, description=f"Không có sân với mã = {ma_san}")
     return san
 
 
