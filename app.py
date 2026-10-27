@@ -126,9 +126,15 @@ def chi_tiet_san(ma_san):
 
 @app.errorhandler(404)
 def trang_loi_404(loi):
+    # type(loi) là lớp lỗi NotFound, lớp này chứa sẵn câu mặc định tiếng Anh của Flask.
+    # Mô tả trùng câu đó nghĩa là không có abort(404, description=...) riêng, nên thay bằng tiếng Việt.
+    if loi.description == type(loi).description:
+        mo_ta = "Trang bạn tìm không tồn tại."
+    else:
+        mo_ta = loi.description
     noi_dung = (
         "<h1>404 - Không tìm thấy trang</h1>"
-        f"<p>{escape(loi.description)}</p>"
+        f"<p>{escape(mo_ta)}</p>"
         f"<p><a href=\"{url_for('trang_chu')}\">Về trang chủ</a></p>"
     )
     # Phải trả kèm mã 404, nếu không Flask trả 200 và trình duyệt tưởng trang vẫn tồn tại.
