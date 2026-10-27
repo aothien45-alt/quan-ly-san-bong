@@ -33,7 +33,8 @@ def dung_khung_trang(tieu_de, noi_dung):
 <body>
   <nav>
     <a href="{url_for('trang_chu')}">Trang chủ</a> |
-    <a href="{url_for('danh_sach_san')}">Danh sách sân</a>
+    <a href="{url_for('danh_sach_san')}">Danh sách sân</a> |
+    <a href="{url_for('api_danh_sach_san')}">API sân</a>
   </nav>
   <hr>
   {noi_dung}
@@ -122,6 +123,20 @@ def chi_tiet_san(ma_san):
         f"<p><a href=\"{url_for('danh_sach_san')}\">Quay lại danh sách sân</a></p>"
     )
     return dung_khung_trang(san["ten_san"], noi_dung)
+
+
+@app.get("/api/san")
+def api_danh_sach_san():
+    return DANH_SACH_SAN  # Flask tự chuyển list thành JSON
+
+
+@app.get("/api/san/<int:ma_san>")
+def api_chi_tiet_san(ma_san):
+    san = tim_san(ma_san)
+    if san is None:
+        # API trả lỗi dạng JSON để chương trình gọi API đọc được, không trả trang HTML.
+        return {"error": f"Không có sân với mã = {ma_san}"}, 404
+    return san
 
 
 @app.errorhandler(404)
