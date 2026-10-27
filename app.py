@@ -90,6 +90,10 @@ def danh_sach_san():
             f"<td>{escape(san['trang_thai'])}</td></tr>"
         )
 
+    # Bảng không có dòng nào thì người dùng tưởng trang bị lỗi, nên báo rõ là không có sân.
+    if not cac_dong:
+        cac_dong = "<tr><td colspan='5'>Không có sân nào thuộc loại này.</td></tr>"
+
     if loai_dang_chon:
         thong_bao = f"<p>Loại sân: {escape(loai_dang_chon)}, có {len(cac_san)} sân.</p>"
     else:
