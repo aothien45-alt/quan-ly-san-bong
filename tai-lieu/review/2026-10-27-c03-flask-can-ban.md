@@ -62,10 +62,13 @@ Reviewer đã kiểm tra:
 
 Ký hiệu: ✅ đã sửa, ⏭ để sau, ❌ không sửa.
 
-- [ ] 🟡 `app.py:61`: thêm `.strip()`; thêm dòng `/san?loai_san=%20` vào README
-- [ ] 🔵 Gợi ý 1, `app.py:136-138`: đổi sang `abort(404, description=...)`
-- [ ] 🔵 Gợi ý 2, `app.py:144-146`: viết điều kiện dễ giải thích hơn, tách dòng comment 145
-- [ ] 🔵 Gợi ý 3, `app.py:80-104`: hiện dòng "Không có sân nào thuộc loại này." khi lọc ra 0 sân
+- [x] ✅ 🟡 `app.py:61`: thêm `.strip()`; thêm dòng `/san?loai_san=%20` (và thừa dấu cách ở cuối) vào README
+- [x] ✅ 🔵 Gợi ý 1, `app.py:136-138`: đổi sang `abort(404, description=...)`, kết quả `/api/san/99` không đổi
+- [x] ✅ 🔵 Gợi ý 2, `app.py:144-146`: chọn cách (b) `NotFound.description`, mỗi dòng comment dưới 100 ký tự
+- [x] ✅ 🔵 Gợi ý 3, `app.py:80-104`: hiện dòng "Không có sân nào thuộc loại này." khi lọc ra 0 sân; thêm dòng `/san?loai_san=xyz` vào README
+
+Kiểm thử sau khi sửa: chạy lại toàn bộ bảng URL trong README bằng `curl.exe`, tất cả khớp kết quả mong đợi.
+Chưa có pytest/Ruff nên chưa có số liệu độ bao phủ. Không review vòng 2 vì không có mục 🔴 hoặc 🟠.
 
 ### Để sau
 - ⏭ Gợi ý 4, `app.py:151`: `/api` không có `/` cuối trả HTML. Quân quyết định không sửa vì rất hiếm gặp và slide không yêu cầu.
