@@ -102,7 +102,7 @@ Bản DB Design gốc dùng kiểu dữ liệu riêng của SQL Server (NVARCHAR
 | CSDL triển khai | PostgreSQL (chốt ở buổi 13) | PostgreSQL License |
 | Kiểm thử / chất lượng | pytest, pytest-cov, Ruff, mypy | MIT |
 | Đóng gói / CI | Docker, GitHub Actions | Apache-2.0 / dịch vụ GitHub |
-| Giấy phép của đồ án | Đề xuất MIT (chốt và lập luận ở buổi 15) | |
+| Giấy phép của đồ án | MIT (đã chốt ở Bài 2, lập luận tại tai-lieu/ly-do-chon-giay-phep.md) | |
 
 **Không dùng SQL Server 2014**: đây là phần mềm đóng, không hợp yêu cầu mã nguồn mở và đã hết hỗ trợ. MySQL Community (GPLv2) là mã nguồn mở nhưng không nằm trong ngăn xếp thầy dùng, nên chỉ để dự phòng.
 
