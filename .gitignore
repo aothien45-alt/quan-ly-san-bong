@@ -1,0 +1,31 @@
+# --- Môi trường ảo và file sinh ra khi chạy Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- Bí mật: KHÔNG BAO GIỜ commit (chỉ commit .env.example) ---
+.env
+
+# --- Slide của thầy: tài liệu có bản quyền, không đưa lên repo công khai ---
+slide-cua-thay/
+
+# --- Cơ sở dữ liệu SQLite khi chạy thử trên máy ---
+*.db
+*.sqlite3
+instance/
+
+# --- Kết quả kiểm thử và công cụ ---
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Cài đặt cá nhân của Claude Code (không chia sẻ) ---
+.claude/settings.local.json
+
+# --- Rác của hệ điều hành và editor ---
+Thumbs.db
+desktop.ini
+.DS_Store
