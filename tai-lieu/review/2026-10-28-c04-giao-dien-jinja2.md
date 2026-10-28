@@ -99,3 +99,23 @@ README đã có bảng URL đã kiểm thử và 2 ảnh chụp (máy tính, đi
 - [ ] (Gợi ý, không bắt buộc) Thống nhất tên `ngay_tao` / `thoi_diem_tao` giữa `e:\DoAn\quan-ly-san-bong\tai-lieu\quy-uoc-nhanh-va-dat-ten.md` (dòng 101) và `e:\DoAn\quan-ly-san-bong\tai-lieu\ke-hoach-do-an.md` (dòng 117); ghi chú việc đổi múi giờ cho Chương 6.
 - [ ] (Gợi ý, không bắt buộc) Thêm `integrity` và `crossorigin` cho 2 link CDN trong `e:\DoAn\quan-ly-san-bong\templates\trang_khung.html`.
 - [ ] (Sau khi merge) Gắn tag `v0.2` trên `main`. Trong mô tả PR nhớ thêm dòng ghi nguồn AI theo CLAUDE.md.
+
+## Checklist xử lý (`/hoan-thien`)
+
+Ký hiệu: ✅ đã sửa, ⏭ để sau, ❌ không sửa.
+
+- [x] ✅ 🟡 `app.py:31-36`: filter `vnd` dùng `:,.0f` và trả `""` khi gặp `None`, theo đúng code mẫu ở trên (commit `945d144`). Kiểm tra trước và sau bằng `python -c`: `1500.5` từ `"1.500.5 đ"` thành `"1.500 đ"`, `None` từ `TypeError` thành `""`.
+- [x] ✅ 🔵 Tên `ngay_tao` / `thoi_diem_tao`: Quân chọn giữ `ngay_tao`, không sửa code và kế hoạch. Thêm dòng "Cột ngày, giờ" vào bảng mục 4 của `tai-lieu/quy-uoc-nhanh-va-dat-ten.md`: cột kiểu `date` đặt `ngay_...`, cột kiểu `datetime` đặt `thoi_diem_...` (commit `5e5d653`).
+
+Kiểm thử sau khi sửa: chạy server rồi gọi bằng `curl.exe` các URL `/`, `/san`, `/san?loai_san=xyz`, `/san?loai_san=<b>x</b>`, `/san/2`, `/san/3`, `/api/san`, `/api/san/3` (200) và `/san/99`, `/san/abc`, `/abc`, `/api/san/99`, `/api/khong-co` (404). Tất cả đúng mã trạng thái. Giá trên `/san` hiện `300.000 đ`, `500.000 đ`, `1.200.000 đ`; `<b>x</b>` hiện thành `&lt;b&gt;x&lt;/b&gt;`.
+Chưa có pytest/Ruff nên chưa có số liệu độ bao phủ. Không review vòng 2 vì không có mục 🔴 hoặc 🟠.
+
+### Để sau
+- ⏭ 🔵 Năm ở chân trang lấy theo giờ máy chủ (`app.py:60`): sửa ở buổi deploy (buổi 13). Slide Chương 4 cũng viết như vậy.
+- ⏭ 🔵 `integrity` và `crossorigin` cho 2 link CDN trong `templates/trang_khung.html`: Quân để sau vì slide không yêu cầu. Khi làm phải chép đúng mã băm từ getbootstrap.com theo đúng phiên bản.
+- ⏭ 🔵 Dòng dài hơn 88 ký tự (`app.py:72`, `:92`): xử lý khi slide dạy Ruff.
+- ⏭ Test pytest cho filter `vnd` (3 test nêu ở trên): viết khi slide dạy pytest.
+- ⏭ Gắn tag `v0.2` và ghi dòng nguồn AI vào mô tả PR, sau khi merge vào `main`.
+
+### Không sửa
+- ❌ `{{ super() }}`, sinh menu bằng `for`, `loop.index`, `is none` / `is defined`, `default(..., true)`: slide có nhưng bài tập dự án không bắt buộc. Menu chỉ có 2 mục nên viết tay vẫn dễ đọc hơn. Chỉ cần hiểu để trả lời câu hỏi ôn tập.
