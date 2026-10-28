@@ -1,0 +1,14 @@
+/* CSS riêng của đồ án, nạp sau Bootstrap để ghi đè. */
+
+/* Tên sân trên thẻ giữ màu chữ thường, chỉ đổi màu khi rê chuột. */
+.card-title a {
+  color: inherit;
+}
+
+.card-title a:hover {
+  color: var(--bs-success);
+}
+
+footer {
+  background: var(--bs-light);
+}

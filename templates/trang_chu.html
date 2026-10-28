@@ -1,0 +1,35 @@
+{% extends "trang_khung.html" %}
+{% from "_macro.html" import the_san %}
+
+{% block title %}Trang chủ{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Quản lý sân bóng</h1>
+<div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <p class="card-text text-muted mb-1">Tổng số sân</p>
+        <p class="display-6 mb-0">{{ tong_so_san }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <p class="card-text text-muted mb-1">Số sân đang hoạt động</p>
+        <p class="display-6 mb-0">{{ so_san_hoat_dong }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="h4 mb-3">3 sân mới thêm gần đây</h2>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for san in ba_san_moi %}
+  <div class="col">{{ the_san(san) }}</div>
+  {% else %}
+  <p class="text-muted">Chưa có sân nào.</p>
+  {% endfor %}
+</div>
+{% endblock %}

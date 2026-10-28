@@ -99,6 +99,7 @@ git push --tags
 | Template | `snake_case.html`; file dùng chung có tiền tố `_` | `trang_khung.html`, `_thanh_menu.html`, `_macro.html`, `danh_sach_san.html`, `loi_404.html` |
 | Bảng CSDL | `snake_case` số ít | `nguoi_dung`, `san`, `bang_gia`, `don_dat_san`, `khung_gio_dat`, `thanh_toan` |
 | Cột CSDL | `snake_case` | `ma_san`, `ten_san`, `loai_san`, `trang_thai`, `thoi_diem_tao` |
+| Cột ngày, giờ | Cột kiểu `date` đặt `ngay_...`; cột kiểu `datetime` đặt `thoi_diem_...` | `ngay_tao`, `thoi_diem_tao` |
 | Giá trị trạng thái | `CHU_HOA` (giữ như trong SRS) | `HOLDING`, `CONFIRMED`, `CANCELLED`, `ACTIVE` |
 
 Giá trị trạng thái giữ nguyên chữ hoa tiếng Anh như SRS HUSC-18, để đối chiếu với tài liệu được dễ.

@@ -1,0 +1,26 @@
+{# Thanh menu trên cùng, được trang_khung.html chèn vào bằng include. #}
+<nav class="navbar navbar-expand-md navbar-dark bg-success">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('trang_chu') }}">
+      <img src="{{ url_for('static', filename='hinh_anh/logo.svg') }}" alt="" width="28" height="28">
+      {{ ten_he_thong }}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+            aria-controls="menu" aria-expanded="false" aria-label="Mở menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if request.endpoint == 'trang_chu' }}"
+             href="{{ url_for('trang_chu') }}">Trang chủ</a>
+        </li>
+        <li class="nav-item">
+          {# Đang xem chi tiết một sân thì vẫn coi là đang ở mục "Sân" #}
+          <a class="nav-link {{ 'active' if request.endpoint in ['danh_sach_san', 'chi_tiet_san'] }}"
+             href="{{ url_for('danh_sach_san') }}">Sân</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Logo đơn giản: mặt sân bóng nhìn từ trên xuống -->
+  <rect x="1" y="5" width="30" height="22" rx="2" fill="#ffffff"/>
+  <rect x="3" y="7" width="26" height="18" fill="#198754"/>
+  <line x1="16" y1="7" x2="16" y2="25" stroke="#ffffff" stroke-width="1.2"/>
+  <circle cx="16" cy="16" r="3.5" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="3" y="12" width="4" height="8" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="25" y="12" width="4" height="8" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+</svg>

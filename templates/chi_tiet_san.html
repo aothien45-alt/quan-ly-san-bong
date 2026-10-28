@@ -1,0 +1,47 @@
+{% extends "trang_khung.html" %}
+{% from "_macro.html" import nhan_trang_thai %}
+
+{% block title %}{{ san.ten_san }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">{{ san.ten_san }}</h1>
+
+<div class="row">
+  <div class="col-lg-8">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th scope="row" class="w-25">Mã sân</th>
+          <td>{{ san.ma_san }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Loại sân</th>
+          {# Bấm vào loại sân thì mở danh sách sân đã lọc theo đúng loại này #}
+          <td>
+            <a href="{{ url_for('danh_sach_san', loai_san=san.loai_san) }}">{{ san.loai_san }}</a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Địa chỉ</th>
+          <td>{{ san.dia_chi }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Giá thuê một giờ</th>
+          <td>{{ san.gia_thue_mot_gio|vnd }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Trạng thái</th>
+          <td>{{ nhan_trang_thai(san.trang_thai) }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Ngày thêm</th>
+          <td>{{ san.ngay_tao|ngay }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<a class="btn btn-outline-secondary btn-sm"
+   href="{{ url_for('danh_sach_san') }}">Quay lại danh sách sân</a>
+{% endblock %}
