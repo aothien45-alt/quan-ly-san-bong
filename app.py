@@ -30,8 +30,10 @@ def chuyen_san_sang_json(san):
 
 @app.template_filter("vnd")
 def dinh_dang_vnd(so_tien):
-    """Đổi 300000 thành "300.000 đ" cho dễ đọc. Trong template viết {{ gia|vnd }}."""
-    return f"{so_tien:,}".replace(",", ".") + " đ"
+    """Đổi 300000 thành "300.000 đ". Chưa có giá (None) thì trả chuỗi rỗng."""
+    if so_tien is None:
+        return ""
+    return f"{so_tien:,.0f}".replace(",", ".") + " đ"
 
 
 @app.template_filter("ngay")
