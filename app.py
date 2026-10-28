@@ -22,6 +22,13 @@ def tim_san(ma_san):
     return None
 
 
+def chuyen_san_sang_json(san):
+    """Trả về bản sao của sân, trong đó ngay_tao đổi thành chuỗi "YYYY-MM-DD" cho API."""
+    # Flask tự đổi date thành chuỗi kiểu "Tue, 01 Sep 2026 00:00:00 GMT", khó đọc và có giờ thừa.
+    # dict(san, ...) tạo dict mới nên sân gốc trong DANH_SACH_SAN vẫn giữ kiểu date.
+    return dict(san, ngay_tao=san["ngay_tao"].isoformat())
+
+
 def dinh_dang_tien(so_tien):
     """Đổi 300000 thành "300.000 đ" cho dễ đọc. Chương 4 sẽ chuyển thành filter vnd."""
     return f"{so_tien:,}".replace(",", ".") + " đ"
@@ -143,7 +150,8 @@ def chi_tiet_san(ma_san):
 
 @app.get("/api/san")
 def api_danh_sach_san():
-    return DANH_SACH_SAN  # Flask tự chuyển list thành JSON
+    # Flask tự chuyển list thành JSON
+    return [chuyen_san_sang_json(san) for san in DANH_SACH_SAN]
 
 
 @app.get("/api/san/<int:ma_san>")
@@ -152,7 +160,7 @@ def api_chi_tiet_san(ma_san):
     if san is None:
         # Giống trang HTML: trang_loi_404 thấy URL bắt đầu bằng /api/ nên tự trả JSON.
         abort(404, description=f"Không có sân với mã = {ma_san}")
-    return san
+    return chuyen_san_sang_json(san)
 
 
 @app.errorhandler(404)
