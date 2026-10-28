@@ -29,9 +29,18 @@ def chuyen_san_sang_json(san):
     return dict(san, ngay_tao=san["ngay_tao"].isoformat())
 
 
-def dinh_dang_tien(so_tien):
-    """Đổi 300000 thành "300.000 đ" cho dễ đọc. Chương 4 sẽ chuyển thành filter vnd."""
+@app.template_filter("vnd")
+def dinh_dang_vnd(so_tien):
+    """Đổi 300000 thành "300.000 đ" cho dễ đọc. Trong template viết {{ gia|vnd }}."""
     return f"{so_tien:,}".replace(",", ".") + " đ"
+
+
+@app.template_filter("ngay")
+def dinh_dang_ngay(gia_tri, mau="%d/%m/%Y"):
+    """Đổi date(2026, 9, 1) thành "01/09/2026". Chưa có ngày (None) thì trả chuỗi rỗng."""
+    if gia_tri is None:
+        return ""
+    return gia_tri.strftime(mau)
 
 
 def dung_khung_trang(tieu_de, noi_dung):
@@ -67,10 +76,13 @@ def trang_chu():
     for san in DANH_SACH_SAN:
         if san["trang_thai"] == "ACTIVE":
             so_san_hoat_dong += 1
+    # Sắp xếp theo ngay_tao, mới nhất lên đầu, rồi lấy 3 sân đầu tiên.
+    ba_san_moi = sorted(DANH_SACH_SAN, key=lambda san: san["ngay_tao"], reverse=True)[:3]
     return render_template(
         "trang_chu.html",
         tong_so_san=len(DANH_SACH_SAN),
         so_san_hoat_dong=so_san_hoat_dong,
+        ba_san_moi=ba_san_moi,
     )
 
 
@@ -103,7 +115,7 @@ def danh_sach_san():
             f"<tr><td><a href=\"{link_chi_tiet}\">{escape(san['ten_san'])}</a></td>"
             f"<td>{escape(san['loai_san'])}</td>"
             f"<td>{escape(san['dia_chi'])}</td>"
-            f"<td>{dinh_dang_tien(san['gia_thue_mot_gio'])}</td>"
+            f"<td>{dinh_dang_vnd(san['gia_thue_mot_gio'])}</td>"
             f"<td>{escape(san['trang_thai'])}</td></tr>"
         )
 
@@ -140,7 +152,7 @@ def chi_tiet_san(ma_san):
         f"<li>Mã sân: {san['ma_san']}</li>"
         f"<li>Loại sân: {escape(san['loai_san'])}</li>"
         f"<li>Địa chỉ: {escape(san['dia_chi'])}</li>"
-        f"<li>Giá thuê một giờ: {dinh_dang_tien(san['gia_thue_mot_gio'])}</li>"
+        f"<li>Giá thuê một giờ: {dinh_dang_vnd(san['gia_thue_mot_gio'])}</li>"
         f"<li>Trạng thái: {escape(san['trang_thai'])}</li>"
         "</ul>"
         f"<p><a href=\"{url_for('danh_sach_san')}\">Quay lại danh sách sân</a></p>"

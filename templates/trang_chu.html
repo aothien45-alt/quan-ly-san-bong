@@ -1,4 +1,5 @@
 {% extends "trang_khung.html" %}
+{% from "_macro.html" import the_san %}
 
 {% block title %}Trang chủ{% endblock %}
 
@@ -21,5 +22,14 @@
       </div>
     </div>
   </div>
+</div>
+
+<h2 class="h4 mb-3">3 sân mới thêm gần đây</h2>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for san in ba_san_moi %}
+  <div class="col">{{ the_san(san) }}</div>
+  {% else %}
+  <p class="text-muted">Chưa có sân nào.</p>
+  {% endfor %}
 </div>
 {% endblock %}

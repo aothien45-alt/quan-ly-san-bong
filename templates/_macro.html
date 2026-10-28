@@ -1,0 +1,27 @@
+{# Các thành phần giao diện dùng lại ở nhiều trang.
+   Nhập bằng {% from "_macro.html" import ... %}. #}
+
+{# Nhãn màu cho trạng thái sân: ACTIVE màu xanh, INACTIVE màu xám. #}
+{% macro nhan_trang_thai(trang_thai) -%}
+  {% if trang_thai == "ACTIVE" %}
+  <span class="badge text-bg-success">Đang hoạt động</span>
+  {% else %}
+  <span class="badge text-bg-secondary">Ngừng khai thác</span>
+  {% endif %}
+{%- endmacro %}
+
+{# Thẻ (card) tóm tắt một sân; stretched-link giúp bấm vào chỗ nào trên thẻ cũng mở chi tiết. #}
+{% macro the_san(san) -%}
+<div class="card h-100 shadow-sm">
+  <div class="card-body">
+    <h2 class="h5 card-title">
+      <a href="{{ url_for('chi_tiet_san', ma_san=san.ma_san) }}"
+         class="stretched-link text-decoration-none">{{ san.ten_san }}</a>
+    </h2>
+    <p class="card-text text-muted small mb-2">{{ san.loai_san }} · {{ san.dia_chi }}</p>
+    <p class="card-text fw-semibold mb-1">{{ san.gia_thue_mot_gio|vnd }} / giờ</p>
+    <p class="card-text text-muted small">Thêm ngày {{ san.ngay_tao|ngay }}</p>
+  </div>
+  <div class="card-footer bg-transparent">{{ nhan_trang_thai(san.trang_thai) }}</div>
+</div>
+{%- endmacro %}
