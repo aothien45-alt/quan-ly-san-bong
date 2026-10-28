@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2026 Nguyễn Văn Quân
 # SPDX-License-Identifier: MIT
-"""Ứng dụng quản lý sân bóng, phiên bản v0.1 (Chương 3: Flask căn bản)."""
+"""Ứng dụng quản lý sân bóng, phiên bản v0.2 (Chương 4: template Jinja2, Bootstrap 5)."""
 
-from flask import Flask, abort, request, url_for
+from datetime import date
+
+from flask import Flask, abort, render_template, request, url_for
 from markupsafe import escape
 from werkzeug.exceptions import NotFound
 
@@ -43,18 +45,26 @@ def dung_khung_trang(tieu_de, noi_dung):
 </html>"""
 
 
+@app.context_processor
+def them_bien_chung():
+    """Các biến trả về ở đây dùng được trong mọi template, khỏi truyền lại ở từng view."""
+    return {
+        "ten_he_thong": "Quản lý sân bóng",
+        "nam_hien_tai": date.today().year,
+    }
+
+
 @app.get("/")
 def trang_chu():
     so_san_hoat_dong = 0
     for san in DANH_SACH_SAN:
         if san["trang_thai"] == "ACTIVE":
             so_san_hoat_dong += 1
-    noi_dung = (
-        "<h1>Quản lý sân bóng</h1>"
-        f"<p>Tổng số sân: {len(DANH_SACH_SAN)}</p>"
-        f"<p>Số sân đang hoạt động: {so_san_hoat_dong}</p>"
+    return render_template(
+        "trang_chu.html",
+        tong_so_san=len(DANH_SACH_SAN),
+        so_san_hoat_dong=so_san_hoat_dong,
     )
-    return dung_khung_trang("Trang chủ", noi_dung)
 
 
 @app.get("/san")
