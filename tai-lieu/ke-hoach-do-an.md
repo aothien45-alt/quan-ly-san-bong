@@ -114,7 +114,7 @@ Nhánh và tag đặt theo `tai-lieu/quy-uoc-nhanh-va-dat-ten.md`. Mỗi chươn
 |---|---|---|---|
 | Bài 1–2 | `cau-hinh/khoi-tao-kho-ma` | | Repo công khai, README, LICENSE MIT kèm lập luận, `.gitignore`, `.venv` |
 | Chương 3 | `tinh-nang/c03-flask-can-ban` | v0.1 | Dữ liệu sân tạm trong list; `/` thống kê, `/san` lọc theo loại, `/san/<id>` chi tiết, `/api/san`, `/api/san/<id>`; trang 404; `url_for`, `escape` |
-| Chương 4 | `tinh-nang/c04-giao-dien-jinja2` | v0.2 | Template kế thừa, Bootstrap, macro thẻ sân và nhãn trạng thái, filter `vnd`, context processor |
+| Chương 4 | `tinh-nang/c04-giao-dien-jinja2` | v0.2 | Template kế thừa, Bootstrap, macro thẻ sân và nhãn trạng thái, filter `vnd`, `ngay`; thêm trường `ngay_tao` cho sân; context processor |
 | Chương 5 (Form) | `tinh-nang/c05-...` | v0.3 | Dự kiến: form thêm/sửa sân (F2) |
 | Chương 6 (CSDL) | `tinh-nang/c06-...` | v0.4 | Dự kiến: chuyển dữ liệu từ list sang CSDL |
 | Các chương sau | | | Đặt tên khi có slide: F1, F3–F9, kiểm thử, CI/CD, triển khai |
