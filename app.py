@@ -4,8 +4,7 @@
 
 from datetime import date
 
-from flask import Flask, abort, render_template, request, url_for
-from markupsafe import escape
+from flask import Flask, abort, render_template, request
 from werkzeug.exceptions import NotFound
 
 from du_lieu_mau import DANH_SACH_SAN
@@ -41,24 +40,6 @@ def dinh_dang_ngay(gia_tri, mau="%d/%m/%Y"):
     if gia_tri is None:
         return ""
     return gia_tri.strftime(mau)
-
-
-def dung_khung_trang(tieu_de, noi_dung):
-    """Ghép phần đầu trang và menu dùng chung. Chương 4 sẽ thay bằng template Jinja2."""
-    return f"""<!doctype html>
-<html lang="vi">
-<head><meta charset="utf-8">
-<title>{escape(tieu_de)} - Quản lý sân bóng</title></head>
-<body>
-  <nav>
-    <a href="{url_for('trang_chu')}">Trang chủ</a> |
-    <a href="{url_for('danh_sach_san')}">Danh sách sân</a> |
-    <a href="{url_for('api_danh_sach_san')}">API sân</a>
-  </nav>
-  <hr>
-  {noi_dung}
-</body>
-</html>"""
 
 
 def lay_cac_loai_san():
@@ -145,10 +126,5 @@ def trang_loi_404(loi):
     # URL của API (ví dụ /api/san/abc) thì trả JSON để chương trình gọi API đọc được.
     if request.path.startswith("/api/"):
         return {"error": mo_ta}, 404
-    noi_dung = (
-        "<h1>404 - Không tìm thấy trang</h1>"
-        f"<p>{escape(mo_ta)}</p>"
-        f"<p><a href=\"{url_for('trang_chu')}\">Về trang chủ</a></p>"
-    )
     # Phải trả kèm mã 404, nếu không Flask trả 200 và trình duyệt tưởng trang vẫn tồn tại.
-    return dung_khung_trang("Không tìm thấy", noi_dung), 404
+    return render_template("loi_404.html", mo_ta=mo_ta), 404

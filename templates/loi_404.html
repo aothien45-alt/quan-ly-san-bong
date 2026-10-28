@@ -1,0 +1,10 @@
+{% extends "trang_khung.html" %}
+
+{% block title %}Không tìm thấy{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">404 - Không tìm thấy trang</h1>
+{# mo_ta lấy từ abort(404, description=...); Jinja2 tự escape nên không cần escape() như v0.1 #}
+<p class="lead">{{ mo_ta }}</p>
+<a class="btn btn-success" href="{{ url_for('trang_chu') }}">Về trang chủ</a>
+{% endblock %}
