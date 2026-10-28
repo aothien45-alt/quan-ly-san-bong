@@ -116,18 +116,7 @@ def chi_tiet_san(ma_san):
     san = tim_san(ma_san)
     if san is None:
         abort(404, description=f"Không có sân với mã = {ma_san}")
-    noi_dung = (
-        f"<h1>{escape(san['ten_san'])}</h1>"
-        "<ul>"
-        f"<li>Mã sân: {san['ma_san']}</li>"
-        f"<li>Loại sân: {escape(san['loai_san'])}</li>"
-        f"<li>Địa chỉ: {escape(san['dia_chi'])}</li>"
-        f"<li>Giá thuê một giờ: {dinh_dang_vnd(san['gia_thue_mot_gio'])}</li>"
-        f"<li>Trạng thái: {escape(san['trang_thai'])}</li>"
-        "</ul>"
-        f"<p><a href=\"{url_for('danh_sach_san')}\">Quay lại danh sách sân</a></p>"
-    )
-    return dung_khung_trang(san["ten_san"], noi_dung)
+    return render_template("chi_tiet_san.html", san=san)
 
 
 @app.get("/api/san")
