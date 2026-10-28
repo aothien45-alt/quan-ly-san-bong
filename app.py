@@ -61,12 +61,23 @@ def dung_khung_trang(tieu_de, noi_dung):
 </html>"""
 
 
+def lay_cac_loai_san():
+    """Lấy các loại sân không trùng nhau, giữ thứ tự xuất hiện trong dữ liệu."""
+    cac_loai_san = []
+    for san in DANH_SACH_SAN:
+        if san["loai_san"] not in cac_loai_san:
+            cac_loai_san.append(san["loai_san"])
+    return cac_loai_san
+
+
 @app.context_processor
 def them_bien_chung():
     """Các biến trả về ở đây dùng được trong mọi template, khỏi truyền lại ở từng view."""
+    # Chạy ở mọi lần dựng trang; với list 5 sân thì nhẹ. Khi có CSDL (Chương 6) cần xem lại.
     return {
         "ten_he_thong": "Quản lý sân bóng",
         "nam_hien_tai": date.today().year,
+        "cac_loai_san": lay_cac_loai_san(),
     }
 
 
@@ -91,54 +102,13 @@ def danh_sach_san():
     # strip() bỏ dấu cách thừa ở hai đầu, để "?loai_san= " được coi như không chọn loại.
     loai_dang_chon = request.args.get("loai_san", "").strip()
 
-    # Lấy các loại sân không trùng nhau, giữ thứ tự xuất hiện trong dữ liệu.
-    cac_loai_san = []
-    for san in DANH_SACH_SAN:
-        if san["loai_san"] not in cac_loai_san:
-            cac_loai_san.append(san["loai_san"])
-
-    thanh_loc = f'<a href="{url_for("danh_sach_san")}">Tất cả</a>'
-    for loai_san in cac_loai_san:
-        link = url_for("danh_sach_san", loai_san=loai_san)
-        thanh_loc += f' | <a href="{link}">{escape(loai_san)}</a>'
-
     # Không chọn loại thì hiện tất cả; có chọn thì chỉ giữ các sân đúng loại.
     if loai_dang_chon:
         cac_san = [san for san in DANH_SACH_SAN if san["loai_san"] == loai_dang_chon]
     else:
         cac_san = DANH_SACH_SAN
 
-    cac_dong = ""
-    for san in cac_san:
-        link_chi_tiet = url_for("chi_tiet_san", ma_san=san["ma_san"])
-        cac_dong += (
-            f"<tr><td><a href=\"{link_chi_tiet}\">{escape(san['ten_san'])}</a></td>"
-            f"<td>{escape(san['loai_san'])}</td>"
-            f"<td>{escape(san['dia_chi'])}</td>"
-            f"<td>{dinh_dang_vnd(san['gia_thue_mot_gio'])}</td>"
-            f"<td>{escape(san['trang_thai'])}</td></tr>"
-        )
-
-    # Bảng không có dòng nào thì người dùng tưởng trang bị lỗi, nên báo rõ là không có sân.
-    if not cac_dong:
-        cac_dong = "<tr><td colspan='5'>Không có sân nào thuộc loại này.</td></tr>"
-
-    if loai_dang_chon:
-        thong_bao = f"<p>Loại sân: {escape(loai_dang_chon)}, có {len(cac_san)} sân.</p>"
-    else:
-        thong_bao = f"<p>Tất cả: {len(cac_san)} sân.</p>"
-
-    noi_dung = (
-        "<h1>Danh sách sân</h1>"
-        f"<p>Lọc theo loại: {thanh_loc}</p>"
-        f"{thong_bao}"
-        "<table border='1'>"
-        "<tr><th>Tên sân</th><th>Loại sân</th><th>Địa chỉ</th>"
-        "<th>Giá thuê một giờ</th><th>Trạng thái</th></tr>"
-        f"{cac_dong}"
-        "</table>"
-    )
-    return dung_khung_trang("Danh sách sân", noi_dung)
+    return render_template("danh_sach_san.html", cac_san=cac_san, loai_dang_chon=loai_dang_chon)
 
 
 @app.get("/san/<int:ma_san>")

@@ -1,0 +1,33 @@
+{% extends "trang_khung.html" %}
+{% from "_macro.html" import the_san %}
+
+{% block title %}Danh sách sân{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Danh sách sân</h1>
+
+{# Thanh lọc: nút của loại đang chọn tô đậm (btn-primary), các nút khác chỉ có viền. #}
+<div class="d-flex flex-wrap gap-2 mb-3">
+  <a class="btn btn-sm {{ 'btn-primary' if not loai_dang_chon else 'btn-outline-primary' }}"
+     href="{{ url_for('danh_sach_san') }}">Tất cả</a>
+  {% for loai_san in cac_loai_san %}
+  <a class="btn btn-sm {{ 'btn-primary' if loai_san == loai_dang_chon else 'btn-outline-primary' }}"
+     href="{{ url_for('danh_sach_san', loai_san=loai_san) }}">{{ loai_san }}</a>
+  {% endfor %}
+</div>
+
+{% if loai_dang_chon %}
+<p>Loại sân: {{ loai_dang_chon }}, có {{ cac_san|length }} sân.</p>
+{% else %}
+<p>Tất cả: {{ cac_san|length }} sân.</p>
+{% endif %}
+
+{# Lưới card: 1 cột trên điện thoại, 2 cột từ máy tính bảng (md), 3 cột từ máy tính (lg). #}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+  {% for san in cac_san %}
+  <div class="col">{{ the_san(san) }}</div>
+  {% else %}
+  <p class="text-muted">Không có sân nào thuộc loại này.</p>
+  {% endfor %}
+</div>
+{% endblock %}
